@@ -10,6 +10,11 @@ namespace App\Controller;
  */
 class BooksController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->viewBuilder()->setLayout('BooksLayout');
+    }
     /**
      * Index method
      *

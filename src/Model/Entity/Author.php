@@ -33,5 +33,8 @@ class Author extends Entity
         'created_at' => true,
         'updated_at' => true,
         'books' => true,
+        'publisher' => true,
+        'publication_date' => true,
+        'publisher_id' => true,
     ];
 }

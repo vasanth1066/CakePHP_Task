@@ -26,6 +26,13 @@
                     echo $this->Form->control('website');
                     echo $this->Form->control('created_at', ['empty' => true]);
                     echo $this->Form->control('updated_at', ['empty' => true]);
+
+                    echo $this->Form->control('authors._ids', [
+                        'type' => 'select',
+                        'multiple' => 'checkbox',
+                        'options' => $authors,
+                        'value' => array_column((array)$publisher->authors, 'id') 
+                    ]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

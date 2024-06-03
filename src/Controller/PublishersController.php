@@ -10,6 +10,11 @@ namespace App\Controller;
  */
 class PublishersController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->viewBuilder()->setLayout('PublisherLayout');
+    }
     /**
      * Index method
      *
@@ -65,7 +70,10 @@ class PublishersController extends AppController
      */
     public function edit($id = null)
     {
-        $publisher = $this->Publishers->get($id, contain: []);
+        $publisher = $this->Publishers->get($id, [
+            'contain' => ['Authors'], 
+        ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $publisher = $this->Publishers->patchEntity($publisher, $this->request->getData());
             if ($this->Publishers->save($publisher)) {
@@ -75,7 +83,9 @@ class PublishersController extends AppController
             }
             $this->Flash->error(__('The publisher could not be saved. Please, try again.'));
         }
-        $this->set(compact('publisher'));
+
+        $authors = $this->Publishers->Authors->find('list', ['limit' => 200]);
+        $this->set(compact('publisher', 'authors'));
     }
 
     /**

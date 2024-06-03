@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Author $author
+ * @var string[]|\Cake\Collection\CollectionInterface $publishers
  */
 ?>
 <div class="row">
@@ -24,6 +25,7 @@
                 <?php
                     echo $this->Form->control('first_name');
                     echo $this->Form->control('email');
+                    echo $this->Form->control('publishers._ids', ['options' => $publishers, 'multiple' => 'checkbox']); // added publisher input  
                     echo $this->Form->control('created_at', ['empty' => true]);
                     echo $this->Form->control('updated_at', ['empty' => true]);
                 ?>

@@ -42,10 +42,23 @@ class AuthorsTable extends Table
         $this->setTable('authors');
         $this->setDisplayField('first_name');
         $this->setPrimaryKey('id');
+        
 
         $this->hasMany('Books', [
             'foreignKey' => 'author_id',
         ]);
+        
+        // $this->belongsTo('Publishers', [
+        //     'foreignKey' => 'publisher_id',
+        // ]);
+
+        
+        $this->belongsToMany('Publishers', [
+            'foreignKey' => 'author_id',
+            'targetForeignKey' => 'publisher_id',
+            'joinTable' => 'authors_publishers',
+        ]);
+       
     }
 
     /**

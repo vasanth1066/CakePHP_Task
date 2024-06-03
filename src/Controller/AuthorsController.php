@@ -10,6 +10,11 @@ namespace App\Controller;
  */
 class AuthorsController extends AppController
 {
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->viewBuilder()->setLayout('AuthorLayout');
+    }
     /**
      * Index method
      *
@@ -21,6 +26,7 @@ class AuthorsController extends AppController
         $authors = $this->paginate($query);
 
         $this->set(compact('authors'));
+        
     }
 
     /**
@@ -65,7 +71,10 @@ class AuthorsController extends AppController
      */
     public function edit($id = null)
     {
-        $author = $this->Authors->get($id, contain: []);
+        $author = $this->Authors->get($id, [
+            'contain' => ['Publishers'],
+        ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $author = $this->Authors->patchEntity($author, $this->request->getData());
             if ($this->Authors->save($author)) {
@@ -75,9 +84,10 @@ class AuthorsController extends AppController
             }
             $this->Flash->error(__('The author could not be saved. Please, try again.'));
         }
-        $this->set(compact('author'));
-    }
 
+        $publishers = $this->Authors->Publishers->find('list', ['limit' => 200]);
+        $this->set(compact('author', 'publishers'));
+    }
     /**
      * Delete method
      *

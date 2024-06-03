@@ -46,7 +46,13 @@ class PublishersTable extends Table
         $this->hasMany('Books', [
             'foreignKey' => 'publisher_id',
         ]);
-    }
+
+        $this->belongsToMany('Authors', [
+            'foreignKey' => 'publisher_id',
+            'targetForeignKey' => 'author_id',
+            'joinTable' => 'authors_publishers',
+        ]);
+    } 
 
     /**
      * Default validation rules.
