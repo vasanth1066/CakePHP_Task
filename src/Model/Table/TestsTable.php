@@ -42,13 +42,13 @@ class TestsTable extends Table
         parent::initialize($config);
 
        
-        $this->setTable('exampleTable');
+        $this->setTable('tests');
         
-        //  Set the primary key
-        $this->setPrimaryKey('example-id');
+        // // //  Set the primary key
+        $this->setPrimaryKey('id');
         
-        // Set the display field
-        $this->setDisplayField('example-title');
+        // // // Set the display field
+        $this->setDisplayField('id');
         
        
     }
@@ -62,10 +62,76 @@ class TestsTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-        ->notEmptyString('title', 'Title cannot be empty')
-        ->maxLength('title', 255);
+            ->email('email')//single rule per field
+            ->requirePresence('email', 'create')
+            ->notEmptyString('email', 'This field cannot be empty')
+            ->add('email', 'validFormat', [
+                'rule' => ['custom', '/@gmail\.com$/'],
+                'message' => 'Email must end with "@gmail.com"'
+            ]);
 
-    return $validator;
+        $validator
+            ->notEmptyString('password', 'Password cannot be empty')//mutilple rule per field
+            ->add('password', 'length', [
+                'rule' => ['minLength', 8],
+                'message' => 'Password must be at least 8 characters long'
+            ])
+            ->add('password', 'upperCase', [
+                'rule' => function ($value) {
+                    return (bool)preg_match('/[A-Z]/', $value);
+                },
+                'message' => 'Password must contain at least one uppercase letter'
+            ])
+            ->add('password', 'lowerCase', [
+                'rule' => function ($value) {
+                    return (bool) preg_match('/[a-z]/', $value);
+                },
+                'message' => 'Password must contain at least one lowercase letter'
+            ])
+            ->add('password', 'digit', [
+                'rule' => function ($value) {
+                    return (bool)preg_match('/\d/', $value);
+                },
+                'message' => 'Password must contain at least one digit'
+            ]);
+
+        $validator
+            ->scalar('first_name')
+            ->maxLength('first_name', 100)
+            ->requirePresence('first_name', 'create')
+            ->notEmptyString('first_name');
+
+        $validator
+            ->notEmptyString('last_name','Last Name Must');
+
+        $validator
+            ->scalar('address')//custom rule for validation
+            ->requirePresence('address', 'create')
+            ->notEmptyString('address')
+            ->add('address', 'customValidation', [
+                'rule' => [$this, 'validateAddress'],
+                'message' => 'Invalid address format & length should be more than 10 characters'
+            ]);
+
+        $validator
+            ->date('birthday')
+            ->allowEmptyDate('birthday');
+
+        $validator
+            ->notEmptyArray('user_type', 'Please select at least one user type');
+
+        $validator
+            ->requirePresence('terms', 'create', 'Please accept the terms and conditions');
+
+        return $validator;
+    }
+
+    public function validateAddress($value, $context)
+    {
+        if (strlen($value) < 10) {
+            return false; 
+        }
+        return true; 
     }
 
 }
