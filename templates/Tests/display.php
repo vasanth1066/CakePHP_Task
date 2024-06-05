@@ -4,7 +4,7 @@
 <table>
 
     <?= $this->Form->create(null,['type'=>'get']);?>
-    <?= $this->Form->control('key',['label'=>'Search Data','value'=>$this->request->getQuery('key')]);?>
+    <?= $this->Form->control('key',['label'=>'Search Name','value'=>$this->request->getQuery('key')]);?>
     <?=  $this->Form->submit('search');?>
     <?=  $this->Form->end();?>
      

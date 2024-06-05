@@ -34,7 +34,7 @@ class TestsController extends AppController {
     {
       // 	redirect to another action and current action
 
-      // $this->viewBuilder()->setTemplate('custom_view');
+    //   $this->viewBuilder()->setTemplate('custom_view');
 
 
       // 	Set layout and element for an action or controller.
