@@ -83,6 +83,8 @@ endif;
             <h1>
                 Welcome to CakePHP <?= h(Configure::version()) ?> Chiffon (🍰)
             </h1>
+           
+            <?= $this->Html->link(__('Click to Login'), ['controller'=>'users', 'action' => 'login']) ?>
         </div>
     </header>
     <main class="main">

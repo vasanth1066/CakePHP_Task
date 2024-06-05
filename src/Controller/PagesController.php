@@ -70,4 +70,10 @@ class PagesController extends AppController
             throw new NotFoundException();
         }
     }
+        // allowUnauthenticated without login
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->Authentication->allowUnauthenticated(['display']);
+    }
 }
