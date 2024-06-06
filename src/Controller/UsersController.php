@@ -19,9 +19,10 @@ class UsersController extends AppController
         // regardless of POST or GET, redirect if user is logged in
         if ($result && $result->isValid()) {
 
-            //save data in cookies
-            // $user = $this->Authentication->getIdentity();
-            // $this->Cookie->write('User', $user);
+            //save data in session
+            $user = $this->Authentication->getIdentity();
+            $this->Auth->setUser($user);
+
 
             // redirect 
             $redirect = $this->request->getQuery('redirect', [
@@ -53,11 +54,13 @@ class UsersController extends AppController
     {
 
         $result = $this->Authentication->getResult();
+
         // regardless of POST or GET, redirect if user is logged in
         if ($result && $result->isValid()) {
-           
-            // $this->Cookie->delete('User');
             $this->Authentication->logout();
+            // clear the session
+
+            $this->request->getSession()->destroy();
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
     }
