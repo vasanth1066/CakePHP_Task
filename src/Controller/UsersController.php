@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use Cake\ORM\TableRegistry;
+
 
 /**
  * Users Controller
@@ -20,10 +22,9 @@ class UsersController extends AppController
         if ($result && $result->isValid()) {
 
             //save data in session
-            $user = $this->Authentication->getIdentity();
-            $this->Auth->setUser($user);
-
-
+            // $user = $this->Authentication->getIdentity();
+            // $this->Auth->setUser($user);
+            
             // redirect 
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Books',
@@ -59,8 +60,7 @@ class UsersController extends AppController
         if ($result && $result->isValid()) {
             $this->Authentication->logout();
             // clear the session
-
-            $this->request->getSession()->destroy();
+            // $this->request->getSession()->destroy();
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
     }
@@ -79,6 +79,25 @@ class UsersController extends AppController
         $this->set('user', $user);
         $this->viewBuilder()->setLayout('login');
 
+    }   
+   
+    
+    public function dashboard() {
+        $this->viewBuilder()->setLayout('UsersLayout');
+
+        // fetch publishers, authors, and books
+        $publishersTable = TableRegistry::getTableLocator()->get('Publishers');
+        $publishers = $publishersTable->find('all');
+        
+        $authorsTable = TableRegistry::getTableLocator()->get('Authors');
+        $authors = $authorsTable->find('all');
+        
+        $booksTable = TableRegistry::getTableLocator()->get('Books');
+        $books = $booksTable->find()
+        ->contain(['Authors', 'Publishers'])
+        ->all();
+
+        $this->set(compact('publishers', 'authors', 'books'));
     }
     // /**
     //  * Index method

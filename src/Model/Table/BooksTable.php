@@ -46,9 +46,11 @@ class BooksTable extends Table
 
         $this->belongsTo('Publishers', [
             'foreignKey' => 'publisher_id',
+            'joinType' => 'INNER'
         ]);
         $this->belongsTo('Authors', [
             'foreignKey' => 'author_id',
+            'joinType' => 'INNER'
         ]);
     }
 

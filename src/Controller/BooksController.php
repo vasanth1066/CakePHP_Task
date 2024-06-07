@@ -29,6 +29,46 @@ class BooksController extends AppController
         $this->set(compact('books'));
     }
 
+    public function fetchBooksByFilters() {
+        $this->autoRender = false; 
+        
+        $authors = $this->request->getQuery('authors');
+        $publishers = $this->request->getQuery('publishers');
+        $conditions = [];
+
+        if (!empty($authors)) {
+            $authorIds = explode(',', $authors);
+            $conditions['Books.author_id IN'] = $authorIds;
+        }
+
+        if (!empty($publishers)) {
+            $publisherIds = explode(',', $publishers);
+            $conditions['Books.publisher_id IN'] = $publisherIds;
+        }
+
+        $books = $this->Books->find('all', [
+            'conditions' => $conditions,
+            'contain' => ['Authors', 'Publishers'] 
+        ])->toArray();
+
+        // return books as json 
+        echo json_encode($books);
+    }
+
+    public function fetchBooksBySearch() {
+        $this->autoRender = false;
+        $search = $this->request->getQuery('search');
+    
+        $books = $this->Books->find('all', [
+            'conditions' => ['Books.title LIKE' => '%' . $search . '%'],
+            'contain' => ['Authors', 'Publishers']
+        ]);
+    
+        echo json_encode($books);
+        $this->set(compact('books'));
+        $this->viewBuilder()->setOption('serialize', ['books']);
+    }
+  
     /**
      * View method
      *
