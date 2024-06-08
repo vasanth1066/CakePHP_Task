@@ -13,6 +13,8 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('title') ?></th>
+                    <th><?= $this->Paginator->sort('price') ?></th>
+                    <th><?= $this->Paginator->sort('description') ?></th>
                     <th><?= $this->Paginator->sort('publication_date') ?></th>
                     <th><?= $this->Paginator->sort('publisher_id') ?></th>
                     <th><?= $this->Paginator->sort('author_id') ?></th>
@@ -26,12 +28,19 @@
                 <tr>
                     <td><?= $this->Number->format($book->id) ?></td>
                     <td><?= h($book->title) ?></td>
+                    <td><?= h($book->price) ?></td>
+                    <td><?= h($book->description) ?></td>
                     <td><?= h($book->publication_date) ?></td>
                     <td><?= $book->hasValue('publisher') ? $this->Html->link($book->publisher->name, ['controller' => 'Publishers', 'action' => 'view', $book->publisher->id]) : '' ?></td>
                     <td><?= $book->hasValue('author') ? $this->Html->link($book->author->first_name, ['controller' => 'Authors', 'action' => 'view', $book->author->id]) : '' ?></td>
                     <td><?= h($book->created_at) ?></td>
+                    
                     <td><?= h($book->updated_at) ?></td>
+                    <td>
+                    <a href="<?= $this->Url->build(['action' => 'addToCart', $book->id]) ?>">Add to Cart</a>
+                </td>
                     <td class="actions">
+                        
                         <?= $this->Html->link(__('View'), ['action' => 'view', $book->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $book->id]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]) ?>

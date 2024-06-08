@@ -106,8 +106,26 @@
 
             if (Array.isArray(books) && books.length > 0) {
                 books.forEach(function (book) {
-                    var listItem = $('<li></li>').text(book.title + ' - ' + book.author.first_name + ' - ' + book.publisher.name);
+                    var listItem = $('<li></li>');
+                    var likeButton = $('<button class="like-button" data-book-id="' + book.id + '">Like</button>');
+                    var bookDetailsLink = $('<a href="<?= $this->Url->build(['controller' => 'Books', 'action' => 'display']); ?>/' + book.id + '">View Details</a>');
+                    var addToCartLink = $('<a href="<?= $this->Url->build(['controller' => 'Books', 'action' => 'addToCart']); ?>/' + book.id + '"> Add to Cart</a>');
+                    listItem.append(book.title + ' - Rs - ' + book.price + ' - ' + book.author.first_name + ' - ' + book.publisher.name + ' - Views: ' + book.like_count  + ' ');
+                    listItem.append(likeButton);
+                    listItem.append(bookDetailsLink);
+                    listItem.append(addToCartLink);
                     bookList.append(listItem);
+
+                    likeButton.on('click', function(e) {
+                        e.preventDefault();
+                        var bookId = $(this).data('book-id');
+                        // console.log('bookId',bookId)
+                        var updateCountUrl = '<?= $this->Url->build(['controller' => 'Books', 'action' => 'updateCount']); ?>' + '?bookId=' + bookId;
+                        // console.log('updateCountUrl',updateCountUrl)
+                        // redirect to the updateCount URL
+                        window.location.href = updateCountUrl;
+        
+                    });
                 });
             } else {
                 noBooksFound.show();

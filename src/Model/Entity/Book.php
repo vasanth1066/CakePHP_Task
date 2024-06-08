@@ -39,5 +39,8 @@ class Book extends Entity
         'updated_at' => true,
         'publisher' => true,
         'author' => true,
+        'comment' => true,
+        'price' => true,
+        'description' => true,
     ];
 }

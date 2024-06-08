@@ -52,6 +52,10 @@ class BooksTable extends Table
             'foreignKey' => 'author_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('Comments', [
+            'foreignKey' => 'book_id',
+            'propertyName' => 'book_comments'
+        ]);
     }
 
     /**
@@ -87,6 +91,14 @@ class BooksTable extends Table
         $validator
             ->dateTime('updated_at')
             ->allowEmptyDateTime('updated_at');
+
+        $validator
+            ->decimal('price')
+            ->allowEmptyString('price');
+
+        $validator
+            ->scalar('description')
+            ->allowEmptyString('description');    
 
         return $validator;
     }

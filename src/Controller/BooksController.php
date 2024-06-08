@@ -48,7 +48,8 @@ class BooksController extends AppController
 
         $books = $this->Books->find('all', [
             'conditions' => $conditions,
-            'contain' => ['Authors', 'Publishers'] 
+            'contain' => ['Authors', 'Publishers'] ,
+            'order' => ['Books.price' => 'ASC']
         ])->toArray();
 
         // return books as json 
@@ -61,7 +62,8 @@ class BooksController extends AppController
     
         $books = $this->Books->find('all', [
             'conditions' => ['Books.title LIKE' => '%' . $search . '%'],
-            'contain' => ['Authors', 'Publishers']
+            'contain' => ['Authors', 'Publishers'],
+            'order' => ['Books.price' => 'ASC']
         ]);
     
         echo json_encode($books);
@@ -81,6 +83,63 @@ class BooksController extends AppController
         $book = $this->Books->get($id, contain: ['Publishers', 'Authors']);
         $this->set(compact('book'));
     }
+    public function display($id = null)
+    {
+        $book = $this->Books->get($id, contain: ['Publishers', 'Authors','Comments']);
+        $this->set(compact('book'));
+        $this->viewBuilder()->setLayout('UsersLayout');
+    }
+
+    public function updateCount()
+    {
+        $this->request->allowMethod(['post', 'get']);
+        $bookId = $this->request->getData('bookId') ?? $this->request->getQuery('bookId');
+        $book = $this->Books->get($bookId);
+        $book->like_count++;
+
+        if ($this->Books->save($book)) {
+            $this->Flash->success(__('Liked the book!'));
+        } else {
+            $this->Flash->error(__('Failed to like the book.'));
+        }
+
+        // redirect back to the previous page
+        return $this->redirect($this->referer());
+    }
+
+
+    public function addToCart($bookId)
+    {
+        $book = $this->Books->get($bookId);
+        $session = $this->request->getSession();
+
+        $cart = $session->read('Cart') ?? [];
+
+        if (isset($cart[$bookId])) {
+            $cart[$bookId]['quantity']++;
+        } else {
+            $cart[$bookId] = [
+                'id' => $book->id,
+                'title' => $book->title,
+                'price' => $book->price,
+                'quantity' => 1
+            ];
+        }
+        $this->Flash->success(__('Book Added to Cart Successfully'));
+        $session->write('Cart', $cart);
+        return $this->redirect(['action' => 'viewCart']);
+    }
+
+    public function viewCart()
+    {
+        $session = $this->request->getSession();
+        $cart = $session->read('Cart') ?? [];
+        $this->set(compact('cart'));
+        $this->viewBuilder()->setLayout('UsersLayout');
+
+    }
+
+
 
     /**
      * Add method

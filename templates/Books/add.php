@@ -20,6 +20,8 @@
                 <legend><?= __('Add Book') ?></legend>
                 <?php
                     echo $this->Form->control('title');
+                    echo $this->Form->control('price');
+                    echo $this->Form->control('description');
                     echo $this->Form->control('publication_date', ['empty' => true]);
                     echo $this->Form->control('publisher_id', ['options' => $publishers, 'empty' => true]);
                     echo $this->Form->control('author_id', ['options' => $authors, 'empty' => true]);

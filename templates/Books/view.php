@@ -23,6 +23,14 @@
                     <td><?= h($book->title) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Price') ?></th>
+                    <td><?= h($book->price) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Description') ?></th>
+                    <td><?= h($book->description) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Publisher') ?></th>
                     <td><?= $book->hasValue('publisher') ? $this->Html->link($book->publisher->name, ['controller' => 'Publishers', 'action' => 'view', $book->publisher->id]) : '' ?></td>
                 </tr>
