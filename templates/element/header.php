@@ -5,6 +5,8 @@
             <li><?= $this->Html->link('Books', ['controller' => 'Books', 'action' => 'index', 'Books']) ?></li>
             <li><?= $this->Html->link('Author', ['controller' => 'Authors', 'action' => 'index', 'Author']) ?></li>
             <li><?= $this->Html->link('Publisher', ['controller' => 'Publishers', 'action' => 'index', 'Publisher']) ?></li>
+            <li><?= $this->Html->link('Dashboard', ['controller' => 'Users', 'action' => 'dashboard']) ?></li>
+            
             <li>
                 <button><?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']) ?></button>
             </li>

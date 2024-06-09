@@ -4,14 +4,13 @@
 <head>
     <title>User Dashboard</title>
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake',"styles"]) ?>
+    <?= $this->Html->css("dashboard") ?>
 
 </head>
 <body>
     <div class="container">
         <div class="row">
-            
-            <div class="col-md-8">
+            <div class="col-md">
                 <?= $this->fetch('content') ?> 
             </div>
         </div>

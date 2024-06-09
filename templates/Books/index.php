@@ -34,16 +34,14 @@
                     <td><?= $book->hasValue('publisher') ? $this->Html->link($book->publisher->name, ['controller' => 'Publishers', 'action' => 'view', $book->publisher->id]) : '' ?></td>
                     <td><?= $book->hasValue('author') ? $this->Html->link($book->author->first_name, ['controller' => 'Authors', 'action' => 'view', $book->author->id]) : '' ?></td>
                     <td><?= h($book->created_at) ?></td>
-                    
                     <td><?= h($book->updated_at) ?></td>
-                    <td>
-                    <a href="<?= $this->Url->build(['action' => 'addToCart', $book->id]) ?>">Add to Cart</a>
-                </td>
+                                  
                     <td class="actions">
                         
                         <?= $this->Html->link(__('View'), ['action' => 'view', $book->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $book->id]) ?>
+                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $book->id]) ?>  
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]) ?>
+                        <!-- <a href="<?= $this->Url->build(['action' => 'addToCart', $book->id]) ?>">Add to Cart</a> -->
                     </td>
                 </tr>
                 <?php endforeach; ?>

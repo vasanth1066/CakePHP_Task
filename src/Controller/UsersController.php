@@ -27,8 +27,8 @@ class UsersController extends AppController
             
             // redirect 
             $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'Books',
-                'action' => 'index',
+                
+                'action' => 'dashboard',
             ]);
 
             return $this->redirect($redirect);

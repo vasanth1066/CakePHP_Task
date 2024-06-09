@@ -1,5 +1,11 @@
-
+<div class="navbar">
+        <span class="navbar-brand">Checkout</span>
+        <button class="logout-button"><?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']) ?></button>
+</div>
+<div class="checkout-container">
 <h1>Checkout</h1>
+<div class="back-button"><?= $this->Html->link('Back', ['controller' => 'Books', 'action' => 'viewCart']) ?></div>
+
 <form method="post" action="<?= $this->Url->build() ?>">
     <?= $this->Form->create() ?>
     <table>
@@ -24,6 +30,14 @@
         </tbody>
     </table>
     <p>Total: <?= array_sum(array_map(function($item) { return $item['quantity'] * $item['price']; }, $cart)) ?></p>
+    <?= $this->Form->control('', [
+                    'type' => 'radio', 
+                    'options' => ['onlinepayment' => 'Online Payment', 'Cash' => 'Cash on Delivery'], 
+                    
+                ]) ?>
     <?= $this->Form->button('Place Order') ?>
     <?= $this->Form->end() ?>
+
+
 </form>
+</div>
