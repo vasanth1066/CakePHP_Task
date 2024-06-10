@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 use Cake\ORM\TableRegistry;
-
+use Cake\Mailer\Mailer;
 
 /**
  * Users Controller
@@ -24,6 +24,11 @@ class UsersController extends AppController
             //save data in session
             // $user = $this->Authentication->getIdentity();
             // $this->Auth->setUser($user);
+
+            $user = $this->Authentication->getIdentity();
+            $this->sendloginmail($user->email, $user->name);
+            $this->sendhtmlmail($user->email, $user->name);
+           
             
             // redirect 
             $redirect = $this->request->getQuery('redirect', [
@@ -42,7 +47,25 @@ class UsersController extends AppController
         $this->viewBuilder()->setLayout('login');
 
     }
-
+    protected function sendloginmail($email, $name)
+    {
+        $mailer = new Mailer('default');
+        $mailer->setFrom(['vasanthanuvavi@gmail.com' => 'Admin'])
+               ->setTo($email)
+               ->setSubject('Login Notification')
+               ->deliver("Hello,\n\nYou have successfully logged in.");
+               
+    }
+    protected function sendhtmlmail($email, $name)
+    {
+        
+        $mailer = new Mailer('default');
+        $mailer->setEmailFormat('html')
+               ->setFrom(['vasanthanuvavi@gmail.com' => 'Your Name'])
+               ->setTo($email)
+               ->setSubject('Login')
+               ->deliver('<h1>Welcome to Books APP.</h1><p>SuccessFully logged in.</p>');
+    }
 
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {

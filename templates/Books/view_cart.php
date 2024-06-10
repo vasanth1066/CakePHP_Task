@@ -4,6 +4,7 @@
 </div>
 <div  class="book-details">
 <h1>Your Shopping Cart</h1>
+<?= $this->Flash->render() ?>
 <table>
     <thead>
         <tr>

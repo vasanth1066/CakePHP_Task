@@ -3,6 +3,7 @@
         <button class="logout-button"><?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']) ?></button>
 </div>
 <div class="checkout-container">
+<?= $this->Flash->render() ?>
 <h1>Checkout</h1>
 <div class="back-button"><?= $this->Html->link('Back', ['controller' => 'Books', 'action' => 'viewCart']) ?></div>
 
