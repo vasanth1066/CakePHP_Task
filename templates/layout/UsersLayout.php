@@ -1,12 +1,11 @@
-
+<!-- Understanding about layouts, elements and helpers. -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Dashboard</title>
-
     <?= $this->Html->css("dashboard") ?>
-
 </head>
+
 <body>
     <div class="container">
         <div class="row">
@@ -16,4 +15,5 @@
         </div>
     </div>
 </body>
+
 </html>

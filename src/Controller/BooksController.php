@@ -10,6 +10,7 @@ namespace App\Controller;
  */
 class BooksController extends AppController
 {
+    // Controller methods and examples.
     public function initialize(): void
     {
         parent::initialize();

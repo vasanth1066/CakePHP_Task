@@ -1,3 +1,4 @@
+<!-- Understanding about layouts, elements and helpers. -->
 <header class="site-header">
     <div class="site-header-header">Welcome to  <?= h($heading) ?></div>
     <nav>

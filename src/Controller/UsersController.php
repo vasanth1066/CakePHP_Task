@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 use Cake\ORM\TableRegistry;
 use Cake\Mailer\Mailer;
+use Cake\ORM\Locator\LocatorAwareTrait;
 
 /**
  * Users Controller
@@ -66,7 +67,7 @@ class UsersController extends AppController
                ->setSubject('Login')
                ->deliver('<h1>Welcome to Books APP.</h1><p>SuccessFully logged in.</p>');
     }
-
+    // Controller callbacks examples.
     public function beforeFilter(\Cake\Event\EventInterface $event)
     {
         parent::beforeFilter($event);
@@ -108,8 +109,11 @@ class UsersController extends AppController
     public function dashboard() {
         $this->viewBuilder()->setLayout('UsersLayout');
 
+        // Retrive your datas with various find conditions and from multiple tables 
         // fetch publishers, authors, and books
-        $publishersTable = TableRegistry::getTableLocator()->get('Publishers');
+        // $publishersTable = TableRegistry::getTableLocator()->get('Publishers');
+        //Alternate way to get data form different table.
+        $publishersTable = $this->fetchTable('Publishers');
         $publishers = $publishersTable->find('all');
         
         $authorsTable = TableRegistry::getTableLocator()->get('Authors');
